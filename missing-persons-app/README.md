@@ -9,4 +9,5 @@ Aplicação Front-end para consulta de pessoas desaparecidas.
 ## Como Executar
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/[seu-usuario]/missing-persons-app.git
+   git clone https://github.com/GabrielErick1/Gabriel-Erick-Da-Silva-Nogueira.git
+cd Gabriel-Erick-Da-Silva-Nogueira/missing-persons-app
