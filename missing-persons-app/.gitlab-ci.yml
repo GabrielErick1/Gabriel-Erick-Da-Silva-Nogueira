@@ -1,0 +1,93 @@
+cache:
+  paths:
+    - .yarn
+    - .npm
+    - node_modules/
+
+stages:
+  - test
+  - build
+  - build-docker
+
+variables:
+  ENTITY_NAME: sginf-web
+  DESTINATION_OWNER: transformacao-digital
+  DEPLOYMENT_TARGET: openshift
+
+include:
+  - project: 'templates/template-gitlab-ci'
+    file: 'openshift.yml'
+
+
+### OPENSHIFT DEPLOY
+build:
+  stage: build
+  image: registry-gitlab.mti.mt.gov.br/docker-images/node:18-alpine
+  script:
+    - |
+      if [[ "$CI_COMMIT_REF_NAME" == "develop" ]]; then
+        cp .env-dev .env
+      elif [[ "$CI_COMMIT_REF_NAME" =~ ^release_ ]]; then
+        cp .env-hml .env
+      elif [[ "$CI_COMMIT_REF_NAME" =~ testing ]]; then
+        cp .env-tst .env
+      elif [[ "$CI_COMMIT_REF_NAME" == "master" ]]; then
+        if [[ -f ".env-prod" ]]; then
+          cp .env-prod .env
+        else
+          echo "Arquivo .env-prod não encontrado"
+          exit 1
+        fi
+      fi
+    - yarn install --frozen-lockfile
+    - CI=false yarn build
+  artifacts:
+    paths:
+      - build/
+  only:
+    - oc2
+    - develop
+    - testing
+    - /^release_[0-9]+(?:.[0-9]+)+$/
+    - tags
+    - master
+
+
+build-docker:dev:
+  stage: build-docker
+  extends: .build-docker-template
+  variables:
+    OPENSHIFT_NAMESPACE: intermat-dev
+  only:
+    - develop
+
+## HOMOLOGAÇÃO
+build-docker:hml:
+  stage: build-docker
+  extends: .build-docker-template
+  variables:
+    OPENSHIFT_NAMESPACE: intermat-hml
+  only:
+    refs:
+      - tags
+      - /^release_[0-9]+(?:.[0-9]+)+$/
+
+sonarqube-check:
+  stage: test
+  image:
+    name: registry-gitlab.mti.mt.gov.br/docker-images/sonarsource/sonar-scanner-cli:5.0
+    entrypoint: [ "" ]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner
+  allow_failure: true
+  only:
+    - develop
+    - staging
+    - master\

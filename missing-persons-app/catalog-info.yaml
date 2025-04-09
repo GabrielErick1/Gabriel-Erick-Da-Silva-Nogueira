@@ -1,0 +1,23 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "sginf-web"
+  description: "Sistema de Gestão Fundiária"
+  annotations:
+    github.com/project-slug: transformacao-digital/sginf-web
+    'backstage.io/kubernetes-label-selector': 'app=sginf-web'
+    sonarqube.org/project-key: transformacao-digital_sginf-web
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/code-coverage: scm-only
+  links:
+    - url: https://dev.portal.mt.gov.br/app/sginf-web
+      title: Public URL
+      icon: public
+
+    - url: https://sginf-web.dev.app.interno.mti
+      title: Internal URL
+      icon: LockOpen
+spec:
+  type: website
+  owner: "fsw-td"
+  lifecycle: desenvolvimento

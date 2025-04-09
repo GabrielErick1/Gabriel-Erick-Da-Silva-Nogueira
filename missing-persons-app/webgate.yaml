@@ -1,0 +1,94 @@
+apiVersion: v2
+portal:
+  version:
+  # A URL do Portal em produção
+  portalUrl: ${PORTAL_URL}
+
+  # Uma versão dev do portal pode ser usada durante o desenvolvimento para recursos que requerem o contêiner do portal
+  # em execução (como token de acesso do usuário e informações de perfil). Nesses casos, o integrationType pode ser definido como
+  # iframe para permitir hot-reload e desenvolvimento mais rápido. Observação: é altamente recomendável testar os recursos com
+  # `integrationType: bundle` tipo de integração antes de publicar o aplicativo para produção
+  devServer:
+    # A URL do Portal (local development instance)
+    portalUrl: http://localhost:7004
+    # Tipo de integração: bundle|iframe (iframe habilitará o hot reload)
+    integrationType: bundle
+
+  # Informações que serão utilizadas para registrar esta aplicação no portal (desenvolvimento e produção).
+  application:
+    # Nome da Aplicação
+    name: 'Sistema de Gestão Fundiária'
+
+    # Descrição da Aplicação
+    description: 'Sistema de Gestão Fundiária'
+
+    # O tipo de integração (bundle ou iframe). bundle é o tipo de integração recomendado, mas algumas
+    # aplicações podem não funcionar imediatamente com a integração de bundle. Nesse caso, o iframe
+    # pode ser usado como solução de contorno.
+    # ***** Observação: O aplicativo deve ter uma URL pública para usar iframe. *****
+    integrationType: bundle
+
+    # A slug da categoria. Utilizada para agrupar as aplicações.
+    category: meio-ambiente-e-clima
+
+    # A URL única amigável do aplicativo quando publicado no portal. Utilizada para gerar a URL externa da aplicação
+    # Ex: https://<portal-url>/app/minha-aplicacao
+    basePath: 'sginf-web'
+
+    # The unique url friendly basePath of this application. Used for putting together the application url.
+    # O basePath amigável de URL exclusivo deste aplicativo. Usado para montar a url do aplicativo
+    # A URL interna única da aplicação, utilizado quando o aplicativo estiver disponível em desenvolvimento ou publicado em produção.
+    # Ex: [DEVELOPMENT] http://localhost:3000
+    # Ex: [PRODUCTION] https://minha-aplicacao.dev.app.interno.mti/
+    internalUrl: ${INTERNAL_URL}
+
+    # Define se esta aplicação não deve ser mostrada na busca de serviços e dashboards.
+    # Aplicações com `hidden: true` só são acessíveis diretamente via URL pública
+    hidden: true
+
+    # Valor que define se esta aplicação não precisa de um usuário autenticado para carregar. Ao marcar esta propriedade como false, o usuário
+    # é redirecionado para a tela de login antes de carregar esta aplicação no portal e a aplicação pode considerar que existe um usuário logado.
+    # Ao marcar esta propriedade como false, o access token e as informações do usuário são injetadas na aplicação através da biblioteca webgate-connect
+    public: false
+
+    # Restringe o acesso apenas aos usuários autenticados que possuem roles específicas no perfil (informações sobre roles são definidas no Login Único)
+    # allowedRoles:
+    #  - detran-valid-user
+
+    # Restringe o acesso apenas aos usuários autenticados que fazem parte dos grupos especificados (informações sobre grupos são definidas no Login Único)
+    # allowedGroups:
+    #  - superusers
+    #  - admins
+
+    # Restringe o acesso apenas aos tokens de acesso cujo cliente possua os escopos definidos abaixo (informações sobre escopos são definidas no Login Único)
+    # allowedScopes:
+    #  - portal-publisher
+
+    # O público alvo desta aplicação. Utilizada para categorização na busca de serviços
+    target: 'servidor'
+
+    # As plataformas em que este serviço estarão disponíveis
+    platforms: web,web
+
+    # As palavras chaves. Utilizada para categorização na busca de serviços
+    tags:
+      - servico-digital
+
+    # endpoints:
+    #  # A URL única amigável do aplicativo quando publicado no portal. Utilizada para gerar a URL externa da api
+    #  # Ex: https://<portal-url>/api/minha-api
+    #  - path: "cnh"
+    #    # Endereço para onde as requisições para a URL pública da API serão encaminhadas
+    #    proxyTo: "https://minha-api-interna.apps.demo.xvia.com.br"
+    #    # Define se esta API precisa de um access token válido
+    #    public: false
+    #    # Define se ignora os erros de TLS
+    #    skipTls: true
+
+  # As credenciais precisam ser fornecidas para publicar o aplicativo em uma versão de produção do portal.
+  # Recomenda-se injetar as credenciais das variáveis ​​de ambiente definidas no CI/CD em vez de
+  # escritas diretamente no código-fonte
+  credentials:
+    tokenUrl: ${SMARTPASS_TOKEN_URL}
+    clientId: ${PORTAL_PUBLISHER_CLIENT_ID}
+    secret: ${PORTAL_PUBLISHER_SECRET}

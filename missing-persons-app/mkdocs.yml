@@ -1,0 +1,10 @@
+site_name: sginf-web
+site_description: Sistema de Gestão Fundiária
+repo_url: https://github.com/transformacao-digital/sginf-web
+edit_uri: edit/master/docs
+
+nav:
+  - Início: index.md
+
+plugins:
+  - techdocs-core
