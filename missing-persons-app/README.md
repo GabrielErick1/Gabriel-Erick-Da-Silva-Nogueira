@@ -11,3 +11,4 @@ Aplicação Front-end para consulta de pessoas desaparecidas.
    ```bash
   git clone https://github.com/GabrielErick1/Gabriel-Erick-Da-Silva-Nogueira.git
 cd Gabriel-Erick-Da-Silva-Nogueira/missing-persons-app
+
