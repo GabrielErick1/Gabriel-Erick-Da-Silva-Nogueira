@@ -16,6 +16,10 @@ Aplicação SPA para consulta de pessoas desaparecidas, conforme ANEXO IV do edi
 3. Construa o container: `docker build -t missing-persons-app .`
 4. Execute: `docker run -p 3000:3000 missing-persons-app`
 5. Acesse no navegador: `http://localhost:3001`
+6. Clone o repositório:
+   ```bash
+   git clone https://github.com/GabrielErick1/Gabriel-Erick-Da-Silva-Nogueira.git
+cd Gabriel-Erick-Da-Silva-Nogueira/missing-persons-app
 
 ## Testes
 - Liste desaparecidos: Acesse a tela inicial.
@@ -25,11 +29,7 @@ Aplicação SPA para consulta de pessoas desaparecidas, conforme ANEXO IV do edi
 ## Dependências
 - [Liste as principais, ex.: React, Axios, Tailwind, Maerial mui etc.]
 
-## Como Executar
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/GabrielErick1/Gabriel-Erick-Da-Silva-Nogueira.git
-cd Gabriel-Erick-Da-Silva-Nogueira/missing-persons-app
+
 
 
 
